@@ -1,27 +1,49 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+
+import SwapiService from '../../services/SwapiService';
 
 import './RandomPlanet.css';
 
 export default class RandomPlanet extends Component {
+
+  swapiService = new SwapiService();
+
+  state = {
+    planet: {}
+  };
+  constructor() {
+    super();
+    this.getRandomPlanet()
+  }
+  onPlaneLoad = (planet) => {
+    this.setState({ ...planet });
+  };
+  getRandomPlanet() {
+    const id = Math.floor(Math.random() * 20) + 1;
+    this.swapiService.getPlanet(id)
+      .then(this.onPlaneLoad);
+  }
+
   render() {
+    const { pictureId, planetName, planetPopulation, planetDiameter, planetRotationPeriod } = this.state;
     return (
         <div className='random-planet jumbotron rounded'>
           <img className='planet-image'
-               src="https://starwars-visualguide.com/assets/img/planets/5.jpg" alt="planet" />
+               src={`https://starwars-visualguide.com/assets/img/planets/${pictureId}.jpg`} alt="planet" />
           <div>
-            <h4>Planet name</h4>
+            <h4>{ planetName }</h4>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
                 <span className='term'>Population</span>
-                <span>123124</span>
+                <span>{ planetPopulation }</span>
               </li>
               <li className="list-group-item">
                 <span className='term'>Rotation period</span>
-                <span>43</span>
+                <span>{ planetRotationPeriod }</span>
               </li>
               <li className="list-group-item">
                 <span className='term'>Diameter</span>
-                <span>100</span>
+                <span>{ planetDiameter }</span>
               </li>
             </ul>
           </div>
