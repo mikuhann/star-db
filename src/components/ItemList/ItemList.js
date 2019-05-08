@@ -21,7 +21,7 @@ export default class ItemList extends Component {
       .then((persons) => {
         this.setState({
           personsList: persons
-        }, () => console.log(this.state))
+        })
       })
       .catch(this.onError)
   }
@@ -30,7 +30,7 @@ export default class ItemList extends Component {
       error: true
     });
   };
-  renderItems(arr, id) {
+  renderItems(arr) {
     return arr.map((item) => {
       return (
         <li className='list-group-item'

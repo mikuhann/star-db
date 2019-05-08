@@ -1,22 +1,39 @@
 import React, {Component} from 'react';
 
 import SwapiService from '../../services/SwapiService';
+import Spinner from '../Spinner';
+import PersonView from './PersonView';
 
 import './PersonDetails.css';
 
 export default class PersonDetails extends Component {
+
   swapiService = new SwapiService();
 
   state = {
-    person: null
+    person: null,
+    loading: true
   };
+
   componentDidMount() {
     this.updatePerson();
   }
   componentDidUpdate(prevProps) {
     if (this.props.selectedPerson !== prevProps.selectedPerson) {
+      this.onLoading();
       this.updatePerson();
     }
+  };
+  onLoading = () => {
+    this.setState({
+      loading: true
+    });
+  };
+  onPersonLoad = (person) => {
+    this.setState({
+      person,
+      loading: false
+    });
   };
   updatePerson () {
     const { selectedPerson } = this.props;
@@ -24,39 +41,20 @@ export default class PersonDetails extends Component {
       return;
     }
     this.swapiService.getPerson(selectedPerson)
-      .then((person) => {
-        this.setState({
-          person
-        }, () => console.log(this.state));
-      });
+      .then(this.onPersonLoad);
   };
   render() {
-    if (!this.state.person) {
+    const { person, loading } = this.state;
+    if (!person) {
       return <span>Select person from list</span>
     }
-    const { pictureId, personName, personGender, personBirthYear, personEyeColor } = this.state.person;
+    const spinner = loading ? <Spinner/> : null;
+    const personView = !loading ? <PersonView person={ person }/> : null;
     return (
-        <div className="person-details card">
-          <img className='person-image'
-              src={`https://starwars-visualguide.com/assets/img/characters/${pictureId}.jpg`} alt="person"/>
-          <div className="card-body">
-            <h4>{ personName }</h4>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <span className='term'>Gender:</span>
-                <span>{ personGender }</span>
-              </li>
-              <li className="list-group-item">
-                <span className='term'>Birth year:</span>
-                <span>{ personBirthYear }</span>
-              </li>
-              <li className="list-group-item">
-                <span className='term'>Eye color:</span>
-                <span>{ personEyeColor }</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <React.Fragment>
+      { spinner }
+      { personView }
+      </React.Fragment>
     );
   };
 }
