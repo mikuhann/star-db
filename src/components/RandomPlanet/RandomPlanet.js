@@ -47,11 +47,11 @@ export default class RandomPlanet extends Component {
     const spinner = loading ? <Spinner /> : null;
     const planetView = hasData ? <PlanetView planet = { planet }/> : null;
     return (
-        <div className='random-planet jumbotron rounded'>
-          { errorBlock }
-          { spinner }
-          { planetView }
-        </div>
+      <React.Fragment>
+        { errorBlock }
+        { spinner }
+        { planetView }
+      </React.Fragment>
     );
   };
 }

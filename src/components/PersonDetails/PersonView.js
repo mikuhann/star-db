@@ -3,7 +3,7 @@ import React from 'react';
 const PersonView = ({ person }) => {
   const { pictureId, personName, personGender, personBirthYear, personEyeColor } = person;
   return (
-    <div className="person-details card">
+    <React.Fragment>
       <img className='person-image'
            src={`https://starwars-visualguide.com/assets/img/characters/${pictureId}.jpg`} alt="person"/>
       <div className="card-body">
@@ -23,7 +23,7 @@ const PersonView = ({ person }) => {
           </li>
         </ul>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

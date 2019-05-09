@@ -3,7 +3,7 @@ import React from 'react';
 const PlanetView = ({ planet }) => {
   const { pictureId, planetName, planetPopulation, planetRotationPeriod, planetDiameter } = planet;
   return (
-    <React.Fragment>
+    <div className='random-planet jumbotron rounded'>
       <img className='planet-image'
            src={`https://starwars-visualguide.com/assets/img/planets/${pictureId}.jpg`} alt="planet" />
       <div>
@@ -23,7 +23,7 @@ const PlanetView = ({ planet }) => {
           </li>
         </ul>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

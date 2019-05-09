@@ -51,10 +51,10 @@ export default class PersonDetails extends Component {
     const spinner = loading ? <Spinner/> : null;
     const personView = !loading ? <PersonView person={ person }/> : null;
     return (
-      <React.Fragment>
+      <div className="person-details card">
       { spinner }
       { personView }
-      </React.Fragment>
+      </div>
     );
   };
 }
