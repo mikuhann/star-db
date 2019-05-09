@@ -3,7 +3,7 @@ export default class SwapiService {
   _extractId(item) {
     const idRegExp = /\/([0-9]*)\/$/;
     return item.url.match(idRegExp)[1];
-  }
+  };
   _transformPlanetData = (planet) => {
     return {
       pictureId: this._extractId(planet),
@@ -11,7 +11,7 @@ export default class SwapiService {
       planetPopulation: planet.population,
       planetRotationPeriod: planet.rotation_period,
       planetDiameter: planet.diameter
-    }
+    };
   };
   _transformStarshipData = (starship) => {
     return {
@@ -24,7 +24,7 @@ export default class SwapiService {
       starshipCrew: starship.crew,
       starshipPassengers: starship.passengers,
       starshipCargoCapacity: starship.cargoCapacity,
-    }
+    };
   };
   _transformPersonData = (person) => {
     return {
@@ -33,7 +33,7 @@ export default class SwapiService {
       personGender: person.gender,
       personBirthYear: person.birth_year,
       personEyeColor: person.eye_color
-    }
+    };
   };
   async getData(url) {
     const res = await fetch(`${this._baseUrl}${url}`);
@@ -41,29 +41,29 @@ export default class SwapiService {
       throw new Error(`Could not fetch ${url}. Received ${res.status}`);
     }
     return await res.json();
-  }
-  async getAllPersons() {
+  };
+  getAllPersons = async () => {
     const res = await this.getData(`people`);
     return res.results.map(this._transformPersonData);
-  }
-  async getPerson(id) {
+  };
+  getPerson = async (id) => {
     const person = await this.getData(`people/${id}`);
     return this._transformPersonData(person);
-  }
-  async getAllPlanets() {
+  };
+  getAllPlanets = async () => {
     const res = await this.getData(`planets`);
     return res.results.map(this._transformPlanetData);
-  }
-  async getPlanet(id) {
+  };
+  getPlanet = async (id) => {
     const planet = await this.getData(`planets/${id}`);
     return this._transformPlanetData(planet);
-  }
-  async getAllStarships() {
+  };
+  getAllStarships = async () => {
     const res = await this.getData(`starships`);
     return res.results.map(this._transformStarshipData);
-  }
-  async getStarship(id) {
+  };
+  getStarship = async (id) => {
     const starship =  await this.getData(`starships/${id}`);
     return this._transformStarshipData(starship);
-  }
+  };
 }
