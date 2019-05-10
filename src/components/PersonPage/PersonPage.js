@@ -6,6 +6,7 @@ import ItemList from "../ItemList";
 import PersonDetails from "../PersonDetails";
 import ErrorIndicator from "../ErrorIndicator";
 import RowContainer from '../RowContainer';
+import Error from '../Error';
 
 import SwapiService from "../../services/SwapiService";
 
@@ -13,31 +14,25 @@ export default class PersonPage extends Component {
   swapiService = new SwapiService();
 
   state = {
-    selectedPerson: null,
-    error: false
+    selectedPerson: null
   };
   onSelectPerson = (id) => {
     this.setState({
       selectedPerson: id
     });
   };
-  componentDidCatch() {
-    this.setState({
-      error: true
-    });
-  };
 
   render() {
-    const { selectedPerson, error } = this.state;
-    if (error) {
-      return <ErrorIndicator />
-    }
+    const { selectedPerson } = this.state;
 
     const itemList = (
       <ItemList
         onSelectPerson = { this.onSelectPerson }
-        receiveData = {this.swapiService.getAllPersons}
-        renderItem = {({ personName }) => personName }/>
+        receiveData = {this.swapiService.getAllPersons}>
+        {
+          (item) => item.personName
+        }
+      </ItemList>
     );
 
     const personDetails = (
@@ -45,7 +40,9 @@ export default class PersonPage extends Component {
     );
 
     return (
-      <RowContainer left={ itemList } rignt={ personDetails } />
+      <Error>
+        <RowContainer left={ itemList } rignt={ personDetails } />
+      </Error>
     );
   };
 };
