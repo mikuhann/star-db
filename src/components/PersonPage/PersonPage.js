@@ -5,6 +5,8 @@ import './PersonPage.css';
 import ItemList from "../ItemList";
 import PersonDetails from "../PersonDetails";
 import ErrorIndicator from "../ErrorIndicator";
+import RowContainer from '../RowContainer';
+
 import SwapiService from "../../services/SwapiService";
 
 export default class PersonPage extends Component {
@@ -30,19 +32,20 @@ export default class PersonPage extends Component {
     if (error) {
       return <ErrorIndicator />
     }
+
+    const itemList = (
+      <ItemList
+        onSelectPerson = { this.onSelectPerson }
+        receiveData = {this.swapiService.getAllPersons}
+        renderItem = {({ personName }) => personName }/>
+    );
+
+    const personDetails = (
+      <PersonDetails selectedPerson = { selectedPerson } />
+    );
+
     return (
-      <div>
-        <div className='row mb-2'>
-          <div className='col-md-6'>
-            <ItemList
-              onSelectPerson = { this.onSelectPerson }
-              receiveData = {this.swapiService.getAllPersons}/>
-          </div>
-          <div className='col-md-6'>
-            <PersonDetails selectedPerson = { selectedPerson } />
-          </div>
-        </div>
-      </div>
+      <RowContainer left={ itemList } rignt={ personDetails } />
     );
   };
 };
