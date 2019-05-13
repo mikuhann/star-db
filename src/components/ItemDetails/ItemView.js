@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PersonView = ({ person }) => {
-  const { pictureId, personName, personGender, personBirthYear, personEyeColor } = person;
+const ItemView = ({ item, imageUrl }) => {
+  const { pictureId, personName, personGender, personBirthYear, personEyeColor } = item;
   return (
     <React.Fragment>
-      <img className='person-image'
-           src={`https://starwars-visualguide.com/assets/img/characters/${pictureId}.jpg`} alt="person"/>
+      <img className='item-image'
+           src={imageUrl} alt="person"/>
       <div className="card-body">
         <h4>{ personName }</h4>
         <ul className="list-group list-group-flush">
@@ -27,4 +27,4 @@ const PersonView = ({ person }) => {
   );
 };
 
-export default PersonView;
+export default ItemView;

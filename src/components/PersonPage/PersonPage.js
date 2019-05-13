@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import './PersonPage.css';
 
 import ItemList from "../ItemList";
-import PersonDetails from "../PersonDetails";
-import ErrorIndicator from "../ErrorIndicator";
 import RowContainer from '../RowContainer';
 import Error from '../Error';
+import ItemDetails from '../ItemDetails';
 
 import SwapiService from "../../services/SwapiService";
 
@@ -14,34 +13,37 @@ export default class PersonPage extends Component {
   swapiService = new SwapiService();
 
   state = {
-    selectedPerson: null
+    selectedItem: null
   };
   onSelectPerson = (id) => {
     this.setState({
-      selectedPerson: id
+      selectedItem: id
     });
   };
 
   render() {
-    const { selectedPerson } = this.state;
+    const { selectedItem } = this.state;
 
     const itemList = (
       <ItemList
         onSelectPerson = { this.onSelectPerson }
-        receiveData = {this.swapiService.getAllPersons}>
+        receiveData =  {this.swapiService.getAllPersons }>
         {
           (item) => item.personName
         }
       </ItemList>
     );
 
-    const personDetails = (
-      <PersonDetails selectedPerson = { selectedPerson } />
+    const itemDetails = (
+      <ItemDetails
+        selectedItem = { selectedItem }
+        getItem = { this.swapiService.getPerson }
+        getImage = { this.swapiService.getPersonImage }/>
     );
 
     return (
       <Error>
-        <RowContainer left={ itemList } rignt={ personDetails } />
+        <RowContainer left={ itemList } rignt={ itemDetails } />
       </Error>
     );
   };
